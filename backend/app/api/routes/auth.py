@@ -29,7 +29,7 @@ async def auth_callback(code: str):
     except Exception as exc:
         return RedirectResponse(url=f"{FRONTEND_URL}?auth_error={str(exc)}")
 
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     loop.run_in_executor(None, load_data)
 
     return RedirectResponse(url=f"{FRONTEND_URL}?auth=success")

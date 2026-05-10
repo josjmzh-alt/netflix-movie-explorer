@@ -46,7 +46,7 @@ export function AddMovieTab({ onAdd }: AddMovieTabProps) {
         title: form.title,
         genre: form.genre,
         rating: parseFloat(form.rating),
-        year: parseInt(form.year),
+        year: form.year ? parseInt(form.year) : undefined,
         description: form.description || undefined,
         director: form.director || undefined,
       });

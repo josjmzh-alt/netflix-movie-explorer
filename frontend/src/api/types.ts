@@ -3,7 +3,7 @@ export interface MovieRead {
   title: string;
   genre: string;
   rating: number;
-  year: number;
+  year?: number;
   description?: string;
   director?: string;
   source: 'drive' | 'added';
@@ -38,7 +38,7 @@ export interface MovieCreate {
   title: string;
   genre: string;
   rating: number;
-  year: number;
+  year?: number;
   description?: string;
   director?: string;
 }

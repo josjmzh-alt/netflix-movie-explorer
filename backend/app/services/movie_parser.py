@@ -46,9 +46,9 @@ def normalize_movie(data: dict) -> Optional[dict]:
         data, "year", "release_year", "releaseYear", "release_date", "releaseDate"
     )
     try:
-        year = int(str(year_raw)[:4]) if year_raw else 0
+        year = int(str(year_raw)[:4]) if year_raw else None
     except (ValueError, TypeError):
-        year = 0
+        year = None
 
     movie = {
         "id": str(uuid.uuid4()),

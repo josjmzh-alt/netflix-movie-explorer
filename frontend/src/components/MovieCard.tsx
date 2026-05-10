@@ -24,7 +24,7 @@ export function MovieCard({ movie, rank }: MovieCardProps) {
       </div>
       <div className="movie-meta">
         <span className="tag">{movie.genre}</span>
-        {movie.year > 0 && <span>{movie.year}</span>}
+        {movie.year != null && <span>{movie.year}</span>}
         {movie.director && <span>Dir: {movie.director}</span>}
         {movie.description && (
           <span className="movie-description">

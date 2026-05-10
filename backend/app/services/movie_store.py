@@ -80,7 +80,7 @@ class MovieStore:
         # Movies grouped by year, sorted descending
         by_year: Dict[str, List[str]] = defaultdict(list)
         for m in self._movies:
-            year_key = str(m.year) if m.year else "Unknown"
+            year_key = str(m.year) if m.year is not None else "Unknown"
             by_year[year_key].append(m.title)
 
         by_year_response = {

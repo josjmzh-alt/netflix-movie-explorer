@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 
 from app.schemas.movie import MovieCreate, MovieRead
 from app.services.movie_store import store
@@ -13,10 +13,7 @@ def search_movies(
     title: str = Query(..., min_length=1, description="Movie title (partial match)")
 ):
     """Search movies by title using a case-insensitive substring match."""
-    results = store.search(title)
-    if not results:
-        raise HTTPException(status_code=404, detail=f"No movies found matching '{title}'")
-    return results
+    return store.search(title)
 
 
 @router.get("/movies/top-rated", response_model=list[MovieRead])

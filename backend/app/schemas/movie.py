@@ -8,7 +8,7 @@ class MovieRead(BaseModel):
     title: str
     genre: str = "Unknown"
     rating: float = 0.0
-    year: int = 0
+    year: Optional[int] = None
     description: Optional[str] = None
     director: Optional[str] = None
     source: str = "drive"  # "drive" | "added"
@@ -18,6 +18,6 @@ class MovieCreate(BaseModel):
     title: str = Field(..., min_length=1)
     genre: str = Field(..., min_length=1)
     rating: float = Field(..., ge=0.0, le=10.0)
-    year: int = Field(..., ge=1888, le=2100)
+    year: Optional[int] = Field(None, ge=1888, le=2100)
     description: Optional[str] = None
     director: Optional[str] = None

@@ -174,7 +174,6 @@ def discover_json_files(root_folder_id: str) -> List[DriveJsonFile]:
     """Walk a Drive folder tree concurrently and collect JSON file references."""
     root = DriveFolder(id=root_folder_id, name="root", depth=0)
     discovered_files: List[DriveJsonFile] = []
-    pending_folders = 1
 
     log_event(
         "drive_discovery_start",
@@ -184,25 +183,19 @@ def discover_json_files(root_folder_id: str) -> List[DriveJsonFile]:
     )
 
     with ThreadPoolExecutor(max_workers=settings.drive_worker_count) as executor:
-        futures = {executor.submit(_list_folder, root)}
-
-        while futures:
-            for future in as_completed(futures):
-                futures.remove(future)
-                pending_folders -= 1
-
+        pending = [executor.submit(_list_folder, root)]
+        while pending:
+            next_pending = []
+            for future in as_completed(pending):
                 files, folders = future.result()
                 discovered_files.extend(files)
-
                 for folder in folders:
-                    pending_folders += 1
-                    futures.add(executor.submit(_list_folder, folder))
-                break
+                    next_pending.append(executor.submit(_list_folder, folder))
+            pending = next_pending
 
     log_event(
         "drive_discovery_complete",
         json_file_count=len(discovered_files),
-        pending_folder_count=pending_folders,
     )
     return discovered_files
 

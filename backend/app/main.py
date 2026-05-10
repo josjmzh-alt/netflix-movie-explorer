@@ -12,7 +12,7 @@ from app.services.loader import load_data
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if is_authenticated():
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         loop.run_in_executor(None, load_data)
     yield
 

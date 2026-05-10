@@ -6,7 +6,9 @@ import { MovieCard } from '../../components/MovieCard';
 
 export function SearchTab() {
   const [query, setQuery] = useState('');
+  const [lastQuery, setLastQuery] = useState('');
   const [results, setResults] = useState<MovieRead[]>([]);
+  const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +18,10 @@ export function SearchTab() {
     setLoading(true);
     setError('');
     try {
-      setResults(await api.searchMovies(query));
+      const found = await api.searchMovies(query);
+      setResults(found);
+      setLastQuery(query);
+      setSearched(true);
     } catch (err: any) {
       setError(err.message);
       setResults([]);
@@ -39,6 +44,9 @@ export function SearchTab() {
         </button>
       </form>
       {error && <div className="error">{error}</div>}
+      {searched && results.length === 0 && (
+        <div className="empty-state">No movies found for "{lastQuery}"</div>
+      )}
       {results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
     </div>
   );
