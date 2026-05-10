@@ -1,0 +1,200 @@
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #1f1f1f;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #2a2a2a;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: #e50914;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panel-title {
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 16px;
+}
+
+.row--compact {
+  margin-bottom: 8px;
+}
+
+.row-label {
+  color: #ccc;
+}
+
+.row-value {
+  color: #e50914;
+  font-weight: 700;
+}
+
+.year-group {
+  border-top: 1px solid #2a2a2a;
+  padding: 12px 0;
+}
+
+.year-group:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.year-movie-list {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.5;
+  list-style-position: inside;
+  margin-top: 6px;
+}
+
+.year-more-count {
+  color: #666;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.search-button {
+  white-space: nowrap;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.form-shell {
+  max-width: 600px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-spacer {
+  margin-top: 16px;
+}
+
+.form-message {
+  margin-top: 12px;
+}
+
+.submit-button {
+  margin-top: 16px;
+}
+
+.technical-card {
+  margin-bottom: 20px;
+  background: #1a1a2e;
+  border-color: #0078d4;
+}
+
+.technical-label {
+  font-size: 12px;
+  color: #0078d4;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.technical-code {
+  color: #888;
+  font-size: 12px;
+}
+
+.filter-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 12px;
+  margin-bottom: 24px;
+  align-items: flex-end;
+}
+
+.result-count {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.connect-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  gap: 24px;
+  padding: 32px 4vw;
+  text-align: center;
+}
+
+.connect-icon {
+  font-size: 48px;
+}
+
+.connect-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.connect-copy {
+  font-size: 15px;
+  color: #888;
+  max-width: 400px;
+}
+
+.connect-note {
+  font-size: 12px;
+  color: #555;
+}
+
+@media (max-width: 760px) {
+  .dashboard-grid,
+  .form-grid,
+  .filter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .search-form,
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

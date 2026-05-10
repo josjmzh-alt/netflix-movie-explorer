@@ -1,0 +1,32 @@
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount credentials folder so credentials.json and token.json
+      # are never baked into the image and token persists across restarts
+      - ./credentials:/app/credentials
+    environment:
+      - CREDENTIALS_PATH=/app/credentials/credentials.json
+      - TOKEN_PATH=/app/credentials/token.json
+      # OAuth callback goes through nginx on port 3000
+      - BACKEND_URL=http://localhost:3000
+      # After auth, redirect user back to the frontend
+      - FRONTEND_URL=http://localhost:3000
+      # Google Drive folder containing movie JSON files
+      - DRIVE_ROOT_FOLDER_ID=1Z-Bqt69UgrGkwo0ArjHaNrA7uUmUm2r6
+      # Number of concurrent Drive folder listing and file download/parser workers
+      - DRIVE_WORKER_COUNT=8
+      # Max page size supported by Drive files.list
+      - DRIVE_PAGE_SIZE=1000
+      # Set to true when diagnosing Google Drive traversal/parsing
+      - DEBUG_DRIVE_LOGS=false
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
