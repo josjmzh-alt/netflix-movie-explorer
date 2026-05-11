@@ -10,6 +10,10 @@ from googleapiclient.discovery import build
 from app.core.config import settings
 from app.core.structured_log import log_event
 
+# Bridges state across two separate HTTP requests: GET /auth/login-url builds the
+# flow and stores it here; GET /auth/callback consumes it to exchange the code for
+# tokens. A module-level global works because this is a single-user tool — in a
+# multi-user service each login attempt would need its own session-scoped state.
 _pending_flow: Optional[Flow] = None
 
 
@@ -66,8 +70,8 @@ def get_auth_url() -> str:
         redirect_uri=settings.redirect_uri,
     )
     auth_url, _ = _pending_flow.authorization_url(
-        access_type="offline",
-        prompt="consent",
+        access_type="offline",  # requests a refresh_token so the app can re-auth without user interaction
+        prompt="consent",       # forces the consent screen even if the user already granted access — required to reliably receive the refresh_token
     )
     log_event("google_auth_url_created", debug=True, redirect_uri=settings.redirect_uri)
     return auth_url

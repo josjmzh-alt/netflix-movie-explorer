@@ -13,6 +13,9 @@ from app.services.movie_parser import parse_json_file
 
 FOLDER_MIME_TYPE = "application/vnd.google-apps.folder"
 JSON_MIME_TYPE = "application/json"
+# The Drive SDK client is not thread-safe — sharing one instance across workers
+# causes race conditions. thread.local() gives each worker thread its own client,
+# created lazily on first use and reused for all tasks that thread handles.
 _thread_local = threading.local()
 
 
@@ -273,7 +276,9 @@ def load_movies_from_drive() -> List[dict]:
     log_authenticated_user(service)
     log_root_folder_metadata(service, settings.drive_root_folder_id)
     print(f"Traversing folder: {settings.drive_root_folder_id}")
+    # Phase 1 — discover: BFS the folder tree, collect file references (no content downloaded yet)
     files = discover_json_files(settings.drive_root_folder_id)
+    # Phase 2 — load: download and parse each JSON file discovered above
     movies = load_json_files(files)
     log_event("drive_load_complete", root_folder_id=settings.drive_root_folder_id, movie_count=len(movies))
     print(f"Done. {len(movies)} movies loaded")
